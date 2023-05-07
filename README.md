@@ -15,4 +15,4 @@ mvn clean install
 GUI.  
 
 ## UML
-![alt text](https://gitlab.com/WesamAbadi/events-manager/blob/[branch]/assets/EventsManager.drawio.svg?raw=true)
+![tables and relations](https://gitlab.com/WesamAbadi/events-manager/-/blob/master/assets/EventsManager.drawio.svg?raw=true)
