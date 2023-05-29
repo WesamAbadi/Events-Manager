@@ -1,4 +1,4 @@
-package com.wsiam.eventsmanager;
+package com.wisam.eventsmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
