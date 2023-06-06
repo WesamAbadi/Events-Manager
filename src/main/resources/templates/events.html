@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events</title>
+</head>
+<body>
+<h1>Events</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Organizer</th>
+        <th>Presenter</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the events and display the data -->
+    <tr th:each="event : ${events}">
+        <td th:text="${event.id}"></td>
+        <td th:text="${event.name}"></td>
+        <td th:text="${event.description}"></td>
+        <td th:text="${event.organizer.name}"></td>
+        <td th:text="${event.presenter.name}"></td>
+        <td th:text="${event.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Create Event</h2>
+<form method="post" action="/api/events">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required><br><br>
+
+    <label for="organizer">Organizer:</label>
+    <select id="organizer" name="organizer" required>
+        <!-- Iterate over the organizers and display them as options -->
+        <option th:each="organizer : ${organizers}" th:value="${organizer.id}" th:text="${organizer.name}"></option>
+    </select><br><br>
+
+    <label for="presenter">Presenter:</label>
+    <select id="presenter" name="presenter" required>
+        <!-- Iterate over the presenters and display them as options -->
+        <option th:each="presenter : ${presenters}" th:value="${presenter.id}" th:text="${presenter.name}"></option>
+    </select><br><br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required><br><br>
+
+    <input type="submit" value="Create">
+</form>
+</body>
+</html>

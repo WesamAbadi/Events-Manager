@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to the Event Manager</h1>
+
+<div class="button-container">
+    <button onclick="location.href='/api/events'">View/Create Event 📅</button>
+</div>
+<div class="button-container">
+    <button onclick="location.href='/api/organizers'">Create Organizations 🏢</button>
+    <button disabled onclick="location.href='/api/presenters'">Create Presenters 🗣</button>
+    <button disabled onclick="location.href='/api/attendees'">Create Attendees 💻</button>
+</div>
+
+<div class="button-container">
+    <button onclick="location.href='/about.html'">About ℹ</button>
+</div>
+</body>
+</html>
