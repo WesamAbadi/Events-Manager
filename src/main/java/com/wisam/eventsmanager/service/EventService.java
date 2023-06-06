@@ -46,4 +46,8 @@ public class EventService {
         }
         return false;
     }
+    public List<Event> getEventsByOrganizerId(Long organizerId) {
+        return eventRepository.findByOrganizerId(organizerId);
+    }
+
 }

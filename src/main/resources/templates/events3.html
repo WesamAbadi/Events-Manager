@@ -13,7 +13,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>Date</th>
-        <th>Attendees</th>
+        <th>Max num. of Attendees</th>
         <th>Organizer</th>
         <th>Presenter</th>
         <th>Actions</th>
@@ -26,13 +26,28 @@
         <td th:text="${event.description}"></td>
         <td th:text="${#dates.format(event.date, 'yyyy-MM-dd')}"></td>
         <td th:text="${event.attendees}"></td>
-        <td th:text="${event.organizer.name}"></td>
-        <td th:text="${event.presenter.name}"></td>
+        <td>
+            <a th:href="@{/api/organizers/{id}(id=${event.organizer.id})}">
+                <span th:text="${event.organizer.name}"></span>
+            </a>
+        </td>
+        <td>
+            <a th:href="@{/api/presenters/{id}(id=${event.presenter.id})}">
+                <span th:text="${event.presenter.name}"></span>
+            </a>
+        </td>
+
         <td>
             <form id="deleteForm" th:action="@{/api/events/{id}(id=${event.id})}" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" onclick="deleteEvent(event)">Delete</button>
             </form>
+            <form id="editForm" th:action="@{/events/{id}/edit(id=${event.id})}" method="POST">
+
+                <button type="submit">Edit</button>
+            </form>
+
+            </a>
         </td>
     </tr>
     </tbody>
@@ -52,7 +67,7 @@
         <input type="date" id="date" name="date" placeholder="2023-06-10" required>
     </div>
     <div class="form-group">
-        <label for="attendees">Attendees</label>
+        <label for="attendees">Max num. of Attendees</label>
         <input type="number" id="attendees" name="attendees" placeholder="100" required>
     </div>
     <div class="form-group">

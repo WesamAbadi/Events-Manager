@@ -1,7 +1,9 @@
 package com.wisam.eventsmanager.controller;
 
+import com.wisam.eventsmanager.domain.Event;
 import com.wisam.eventsmanager.domain.Organizer;
 import com.wisam.eventsmanager.service.OrganizerService;
+import com.wisam.eventsmanager.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,33 +18,44 @@ import java.util.Optional;
 @RequestMapping("/api/organizers")
 public class OrganizerController {
     private final OrganizerService organizerService;
+    private final EventService eventService;
 
     @Autowired
-    public OrganizerController(OrganizerService organizerService) {
+    public OrganizerController(OrganizerService organizerService, EventService eventService) {
         this.organizerService = organizerService;
+        this.eventService = eventService;
     }
 
     @GetMapping
     public String getAllOrganizers(Model model) {
         List<Organizer> organizers = organizerService.getAllOrganizers();
         model.addAttribute("organizers", organizers);
-        model.addAttribute("organizer", new Organizer()); // Add this line to create a new Organizer object for the form
+        model.addAttribute("organizerForm", new Organizer());
         return "organizers";
     }
 
     @PostMapping
-    public String createOrganizer(@ModelAttribute("organizer") Organizer organizer) {
-        // Code to create the organizer
+    public String createOrganizer(@ModelAttribute("organizerForm") Organizer organizer) {
         organizerService.createOrganizer(organizer);
-        return "redirect:/api/organizers"; // Redirect back to the GET mapping to display the updated list of organizers
+        return "redirect:/api/organizers/" + organizer.getId();
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Organizer> getOrganizerById(@PathVariable Long id) {
+    public String getOrganizerById(@PathVariable Long id, Model model) {
         Optional<Organizer> organizer = organizerService.getOrganizerById(id);
-        return organizer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        organizer.ifPresent(value -> {
+            model.addAttribute("organizer", value);
+            List<Event> events = eventService.getEventsByOrganizerId(id);
+            model.addAttribute("events", events);
+        });
+        return organizer.isPresent() ? "organizer-details" : "error";
+    }
+
+    @GetMapping("/{id}/events")
+    public String getEventsByOrganizerId(@PathVariable Long id, Model model) {
+        List<Event> events = eventService.getEventsByOrganizerId(id);
+        model.addAttribute("events", events);
+        return "organizer-events";
     }
 
     @PutMapping("/{id}")

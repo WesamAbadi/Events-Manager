@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/events")
@@ -60,6 +61,22 @@ public class EventController {
         }
         return "error"; // handle error case
     }
+
+    @GetMapping("/events/{id}/edit")
+    public String showEditEventForm(@PathVariable("id") Long id, Model model) {
+        Optional<Event> event = eventService.getEventById(id);
+        if (event.isPresent()) {
+            model.addAttribute("event", event.get());
+            List<Organizer> organizers = organizerService.getAllOrganizers();
+            model.addAttribute("organizers", organizers);
+            return "event-update";
+        } else {
+            // Handle the case when the event is not found
+            return "error";
+        }
+    }
+
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

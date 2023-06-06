@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS attendees (
 
 
 -- Insert sample data for organizers
-INSERT INTO organizers (name, organization) VALUES ('Apple', 'ANC');
-INSERT INTO organizers (name, organization) VALUES ('Google', 'ALPHABET');
-INSERT INTO organizers (name, organization) VALUES ('Facebook', 'FB');
+INSERT INTO organizers (name, organization) VALUES ('Apple', 'Apple Inc. is an American multinational technology company headquartered in Cupertino, California.');
+INSERT INTO organizers (name, organization) VALUES ('Google', 'Google LLC is an American multinational technology company focusing on artificial intelligence and online advertising.');
+INSERT INTO organizers (name, organization) VALUES ('Facebook', 'Meta Platforms, Inc., formerly named Facebook, Inc., and TheFacebook, Inc., is an American multinational technology conglomerate based in Menlo Park, California. ');
 
 -- Insert sample data for presenters
 INSERT INTO presenters (name, expertise, organizer_id) VALUES ('Max', 'Web developer', 1);
@@ -63,5 +63,6 @@ VALUES ('React Dev event', 'Upcoming React Conferences in 2023', 3, '2023-06-10'
 
 
 -- Insert sample data for attendees
-INSERT INTO attendees (name, email, event_id) VALUES ('Attendee 1', 'attendee1@example.com', 1);
+INSERT INTO attendees (name, email, event_id) VALUES ('Wisam abadi', 'wisam@example.com', 1);
+INSERT INTO attendees (name, email, event_id) VALUES ('John will', 'jhon@example.com', 1);
 

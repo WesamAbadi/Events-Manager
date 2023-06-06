@@ -70,10 +70,10 @@ public class PresenterController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Presenter> getPresenterById(@PathVariable Long id) {
+    public String getPresenterById(@PathVariable Long id, Model model) {
         Optional<Presenter> presenter = presenterService.getPresenterById(id);
-        return presenter.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        presenter.ifPresent(value -> model.addAttribute("presenter", value));
+        return presenter.isPresent() ? "presenter-details" : "error";
     }
 
     @PutMapping("/{id}")

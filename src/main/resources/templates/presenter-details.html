@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Presenter Details</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Presenter Details</h1>
+<a href="/api/presenters">Back to Presenters</a>
+
+<h2>Presenter Information</h2>
+<ul>
+  <li><strong>ID:</strong> [[${presenter.id}]]</li>
+  <li><strong>Name:</strong> [[${presenter.name}]]</li>
+  <li><strong>Expertise:</strong> [[${presenter.expertise}]]</li>
+  <li>
+    <strong>Organizer:</strong>
+    <a th:href="@{'/api/organizers/' + ${presenter.organizer.id}}">[[${presenter.organizer.name}]]</a>
+
+  </li>
+</ul>
+</body>
+</html>

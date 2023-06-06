@@ -13,4 +13,5 @@ public class Organizer {
     private Long id;
     private String name;
     private String organization;
+
 }

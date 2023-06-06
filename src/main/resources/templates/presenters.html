@@ -18,10 +18,12 @@
     </thead>
     <tbody>
     <!-- Iterate over the list of presenters -->
-    <tr th:each="presenter : ${presenters}">
+    <tr th:each="presenter : ${presenters}" th:class="${#strings.equals(presenter.name, selectedPresenter) ? 'highlight' : ''}">
         <td th:text="${presenter.name}"></td>
         <td th:text="${presenter.expertise}"></td>
-        <td th:text="${presenter.organizer.name}"></td>
+        <td>
+            <a th:href="@{/api/organizers/{id}(id=${presenter.organizer.id})}" th:text="${presenter.organizer.name}"></a>
+        </td>
         <td>
             <form id="deleteForm" th:action="@{/api/presenters/{id}(id=${presenter.id})}" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
@@ -35,11 +37,11 @@
 <form th:action="@{/api/presenters}" th:object="${presenter}" method="POST">
     <div class="form-group">
         <label for="name">Presenter Name</label>
-        <input type="text" id="name" name="name" placeholder="Presenter Name" required>
+        <input type="text" id="name" name="name" placeholder="Gabe" required>
     </div>
     <div class="form-group">
         <label for="expertise">Presenter Expertise</label>
-        <input type="text" id="expertise" name="expertise" placeholder="Presenter Expertise" required>
+        <input type="text" id="expertise" name="expertise" placeholder="Front-end" required>
     </div>
     <div class="form-group">
         <label for="organizer">Organizer</label>

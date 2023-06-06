@@ -107,6 +107,17 @@ form#deleteForm:hover {
     background: #ff00003d;
 }
 
+form#editForm {
+    border-radius: 1rem;
+    background: #77ff9c2e;
+    padding: 0;
+    text-align: center;
+}
+
+form#editForm:hover {
+    background: #77ff9c59;
+}
+
 form#deleteForm button {
     background: transparent;
     border: 0px;
@@ -115,4 +126,27 @@ form#deleteForm button {
     text-align: center;
 
     cursor: url("https://i.stack.imgur.com/bUGV0.png"), auto;
+}
+form#editForm button {
+    background: transparent;
+    border: 0px;
+    width: 6rem;
+    height: 4rem;
+    text-align: center;
+
+    cursor: url("https://www.shareicon.net/data/256x256/2015/08/17/86732_edit_512x512.png"), auto;
+}
+
+.highlight {
+    background-color: yellow;
+}
+a {
+    text-decoration: none;
+    color: black;
+    border-bottom:3px dashed #FFD2BB;
+}
+a :hover{
+    text-decoration: none;
+    color: goldenrod;
+    text-shadow: 0px -1px 20px #00000045;
 }
