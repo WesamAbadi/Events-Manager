@@ -1,0 +1,3 @@
+<!-- presenter-options.html -->
+<option value="">Select Organizer First</option>
+<option th:each="presenter : ${presenters}" th:value="${presenter.id}" th:text="${presenter.name}"></option>

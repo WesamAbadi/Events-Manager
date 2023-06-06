@@ -35,6 +35,7 @@ public class PresenterService {
             Presenter presenter = existingPresenter.get();
             presenter.setName(updatedPresenter.getName());
             presenter.setExpertise(updatedPresenter.getExpertise());
+            presenter.setOrganizer(updatedPresenter.getOrganizer()); // Set the organizer
             return presenterRepository.save(presenter);
         }
         return null;
@@ -47,5 +48,9 @@ public class PresenterService {
             return true;
         }
         return false;
+    }
+
+    public List<Presenter> getPresentersByOrganizerId(Long organizerId) {
+        return presenterRepository.findByOrganizerId(organizerId);
     }
 }

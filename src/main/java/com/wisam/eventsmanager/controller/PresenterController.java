@@ -1,7 +1,9 @@
 package com.wisam.eventsmanager.controller;
 
+import com.wisam.eventsmanager.domain.Event;
 import com.wisam.eventsmanager.domain.Organizer;
 import com.wisam.eventsmanager.domain.Presenter;
+import com.wisam.eventsmanager.service.OrganizerService;
 import com.wisam.eventsmanager.service.PresenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,23 +19,55 @@ import java.util.Optional;
 @RequestMapping("/api/presenters")
 public class PresenterController {
     private final PresenterService presenterService;
+    private final OrganizerService organizerService;
+
 
     @Autowired
-    public PresenterController(PresenterService presenterService) {
+    public PresenterController(PresenterService presenterService, OrganizerService organizerService) {
         this.presenterService = presenterService;
+        this.organizerService = organizerService;
+
     }
 
     @GetMapping
-    public ResponseEntity<List<Presenter>> getAllPresenters() {
+    public String getPresenters(Model model) {
         List<Presenter> presenters = presenterService.getAllPresenters();
-        return new ResponseEntity<>(presenters, HttpStatus.OK);
+        List<Organizer> organizers = organizerService.getAllOrganizers();
+        model.addAttribute("presenters", presenters);
+        model.addAttribute("organizers", organizers);
+        return "presenters";
+    }
 
+    @GetMapping("/organizer/{organizerId}")
+    public ResponseEntity<List<Presenter>> getPresentersByOrganizerId(@PathVariable Long organizerId) {
+        List<Presenter> presenters = presenterService.getPresentersByOrganizerId(organizerId);
+        return new ResponseEntity<>(presenters, HttpStatus.OK);
     }
+
+    // Other methods remain the same
+    // ...
+
     @PostMapping
-    public ResponseEntity<Presenter> createPresenter(@RequestBody Presenter presenter) {
-        Presenter createdPresenter = presenterService.createPresenter(presenter);
-        return new ResponseEntity<>(createdPresenter, HttpStatus.CREATED);
+    public String createPresenter(@ModelAttribute("presenter") Presenter presenter) {
+        // Set the organizer for the presenter
+        Organizer organizer = organizerService.getOrganizerById(presenter.getOrganizer().getId()).orElse(null);
+        if (organizer != null) {
+            presenter.setOrganizer(organizer);
+            Presenter createdPresenter = presenterService.createPresenter(presenter);
+            if (createdPresenter != null) {
+                return "redirect:/api/presenters";
+            }
+        }
+        return "error"; // handle error case
     }
+    @GetMapping("/organizer/{organizerId}/html")
+    public String getPresentersByOrganizerIdHtml(@PathVariable Long organizerId, Model model) {
+        List<Presenter> presenters = presenterService.getPresentersByOrganizerId(organizerId);
+        model.addAttribute("presenters", presenters);
+        return "presenter-options"; // Return the name of the HTML template for presenter options
+    }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Presenter> getPresenterById(@PathVariable Long id) {
@@ -41,8 +75,6 @@ public class PresenterController {
         return presenter.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Presenter> updatePresenter(@PathVariable Long id, @RequestBody Presenter presenter) {

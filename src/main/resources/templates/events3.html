@@ -57,7 +57,8 @@
     <div class="form-group">
         <label for="presenter">Presenter</label>
         <select id="presenter" name="presenter.id">
-            <option th:each="presenter : ${presenters}" th:value="${presenter.id}" th:text="${presenter.name}"></option>
+            <!-- Placeholder option -->
+            <option value="">Select Organizer First</option>
         </select>
     </div>
 
@@ -65,5 +66,36 @@
         <button type="submit">Create Event</button>
     </div>
 </form>
+
+<script>
+    // Function to fetch presenter options based on the selected organizer
+    function getPresentersByOrganizer(organizerId) {
+        fetch(`/api/presenters/organizer/${organizerId}/html`)
+            .then(response => response.text())
+            .then(html => {
+                // Update the presenter options
+                const presenterSelect = document.getElementById("presenter");
+                presenterSelect.innerHTML = html;
+            })
+            .catch(error => console.error(error));
+    }
+
+    // Event listener for the organizer selection
+    const organizerSelect = document.getElementById("organizer");
+    organizerSelect.addEventListener("change", function() {
+        const selectedOrganizerId = this.value;
+        // Fetch presenter options based on the selected organizer
+        getPresentersByOrganizer(selectedOrganizerId);
+    });
+
+    // Trigger change event on page load to fetch initial presenter options
+    organizerSelect.dispatchEvent(new Event('change'));
+
+</script>
+
+
+
+
+
 </body>
 </html>

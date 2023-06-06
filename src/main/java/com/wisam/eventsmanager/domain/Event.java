@@ -1,15 +1,8 @@
 package com.wisam.eventsmanager.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
-import javax.persistence.*;
+
 import java.util.Date;
 
 @Data
@@ -21,16 +14,14 @@ public class Event {
     private Long id;
     private String name;
     private String description;
+    private Date date;
+    private int attendees;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "organizer_id")
     private Organizer organizer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "presenter_id")
     private Presenter presenter;
-
-
-    private Date date;
-    private Integer attendees;
 }

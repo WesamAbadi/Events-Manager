@@ -36,23 +36,30 @@ public class EventController {
     @GetMapping
     public String getAllEvents(Model model) {
         List<Event> events = eventService.getAllEvents();
-        List<Organizer> organizers = organizerService.getAllOrganizers(); // Retrieve list of organizers
-        List<Presenter> presenters = presenterService.getAllPresenters(); // Retrieve list of organizers
+        List<Organizer> organizers = organizerService.getAllOrganizers();
+        List<Presenter> presenters = presenterService.getAllPresenters();
         model.addAttribute("events", events);
-        model.addAttribute("organizers", organizers); // Add the list of organizers to the model
-        model.addAttribute("presenters", presenters); // Add the list of presenters to the model
+        model.addAttribute("organizers", organizers);
+        model.addAttribute("presenters", presenters);
+        model.addAttribute("event", new Event()); // Add this line to create a new Event object for the form
         return "events3";
     }
 
     @PostMapping
-    public String createEvent(@ModelAttribute Event event) {
-        Event createdEvent = eventService.createEvent(event);
-        if (createdEvent != null) {
-            return "redirect:/api/events";
+    public String createEvent(@ModelAttribute("event") Event event) {
+        // Set the organizer and presenter for the event
+        Organizer organizer = organizerService.getOrganizerById(event.getOrganizer().getId()).orElse(null);
+        Presenter presenter = presenterService.getPresenterById(event.getPresenter().getId()).orElse(null);
+        if (organizer != null && presenter != null) {
+            event.setOrganizer(organizer);
+            event.setPresenter(presenter);
+            Event createdEvent = eventService.createEvent(event);
+            if (createdEvent != null) {
+                return "redirect:/api/events";
+            }
         }
         return "error"; // handle error case
     }
-
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
