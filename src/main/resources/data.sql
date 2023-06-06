@@ -32,12 +32,12 @@ CREATE TABLE IF NOT EXISTS events (
 CREATE TABLE IF NOT EXISTS attendees (
                                          id BIGINT PRIMARY KEY AUTO_INCREMENT,
                                          name VARCHAR(255) NOT NULL,
-                                         email VARCHAR(255) NOT NULL
-);
+                                         email VARCHAR(255) NOT NULL,
+                                         event_id BIGINT,
+                                         FOREIGN KEY (event_id) REFERENCES events(id)
 
--- Insert sample data for attendees
-INSERT INTO attendees (name, email) VALUES ('Attendee 1', 'attendee1@example.com');
-INSERT INTO attendees (name, email) VALUES ('Attendee 2', 'attendee2@example.com');
+
+);
 
 
 -- Insert sample data for organizers
@@ -60,3 +60,8 @@ VALUES ('Google I/O', 'Google I/O is an annual developer conference held by Goog
 
 INSERT INTO events (name, description, organizer_id, date, attendees, presenter_id)
 VALUES ('React Dev event', 'Upcoming React Conferences in 2023', 3, '2023-06-10', 132, 2);
+
+
+-- Insert sample data for attendees
+INSERT INTO attendees (name, email, event_id) VALUES ('Attendee 1', 'attendee1@example.com', 1);
+

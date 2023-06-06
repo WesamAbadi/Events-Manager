@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendee Manager</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Attendee Manager</h1>
+<a href="/">Back to Homepage 🏠</a>
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Event</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Iterate over the list of attendees -->
+  <tr th:each="attendee : ${attendees}">
+    <td th:text="${attendee.name}"></td>
+    <td th:text="${attendee.email}"></td>
+    <td th:text="${attendee.event.name}"></td>
+    <td>
+      <form id="deleteForm" th:action="@{/api/attendees/{id}(id=${attendee.id})}" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" onclick="deleteAttendee(event)">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<form th:action="@{/api/attendees}" th:object="${attendee}" method="POST">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" placeholder="Name" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+  </div>
+  <div class="form-group">
+    <label for="eventId">Event</label>
+    <select id="eventId" name="eventId">
+      <option th:each="event : ${events}" th:value="${event.id}" th:text="${event.name}"></option>
+    </select>
+  </div>
+  <div class="form-group">
+    <button type="submit">Create Attendee</button>
+  </div>
+</form>
+
+<script>
+  function deleteAttendee(event) {
+    event.preventDefault();
+    if (confirm("Are you sure you want to delete this attendee?")) {
+      const form = event.target.closest('form');
+      const url = form.getAttribute('action');
+      const xhr = new XMLHttpRequest();
+      xhr.open('DELETE', url, true);
+      xhr.onload = function () {
+        if (xhr.status === 204) {
+          // Reload the page or update the attendee list
+          location.reload();
+        } else {
+          alert('Failed to delete the attendee');
+        }
+      };
+      xhr.send();
+    }
+  }
+</script>
+
+</body>
+</html>

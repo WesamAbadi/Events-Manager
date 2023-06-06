@@ -6,13 +6,14 @@
 </head>
 <body>
 <h1>Presenters</h1>
-<a href="/">Home 🏠</a>
+<a href="/">Back to Homepage 🏠</a>
 <table>
     <thead>
     <tr>
         <th>Name</th>
         <th>Expertise</th>
         <th>Organizer</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -21,6 +22,12 @@
         <td th:text="${presenter.name}"></td>
         <td th:text="${presenter.expertise}"></td>
         <td th:text="${presenter.organizer.name}"></td>
+        <td>
+            <form id="deleteForm" th:action="@{/api/presenters/{id}(id=${presenter.id})}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" onclick="deletePresenter(event)">Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -45,5 +52,26 @@
         <button type="submit">Add Presenter</button>
     </div>
 </form>
+
+<script>
+    function deletePresenter(event) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to delete this presenter?")) {
+            const form = event.target.closest('form');
+            const url = form.getAttribute('action');
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', url, true);
+            xhr.onload = function () {
+                if (xhr.status === 204) {
+                    // Reload the page or update the presenter list
+                    location.reload();
+                } else {
+                    alert('Failed to delete the presenter, u can\'t delete the default organizers for now. \n though you can delete the newly created ones!');
+                }
+            };
+            xhr.send();
+        }
+    }
+</script>
 </body>
 </html>

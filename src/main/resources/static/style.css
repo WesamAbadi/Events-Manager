@@ -1,3 +1,9 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
 body {
     font-family: Arial, sans-serif;
     padding: 20px;
@@ -35,6 +41,7 @@ h1 {
 }
 
 table {
+    margin-top: 2rem;
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
@@ -88,4 +95,24 @@ form {
 
 .form-group button:hover {
     background-color: #45a049;
+}
+form#deleteForm {
+    border-radius: 1rem;
+    background: #ff777721;
+    padding: 0;
+    text-align: center;
+}
+
+form#deleteForm:hover {
+    background: #ff00003d;
+}
+
+form#deleteForm button {
+    background: transparent;
+    border: 0px;
+    width: 6rem;
+    height: 4rem;
+    text-align: center;
+
+    cursor: url("https://i.stack.imgur.com/bUGV0.png"), auto;
 }
