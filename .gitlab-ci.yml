@@ -9,3 +9,6 @@ test:
   stage: test
   script:
     - mvn clean test
+
+before_script:
+  - mvn --version
