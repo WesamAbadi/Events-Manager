@@ -1,4 +1,4 @@
-image: rvancea/maven-chrome-jdk8:latest
+image: maven:3.8.4-jdk-8
 
 build:
   stage: build
