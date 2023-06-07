@@ -10,5 +10,10 @@ test:
   script:
     - mvn clean test
 
+run:
+  stage: run
+  script:
+    - mvn spring-boot:run
+
 before_script:
   - mvn --version
