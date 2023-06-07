@@ -1,4 +1,4 @@
-package com.wisam.eventsmanager.controller;
+package com.wisam.eventsmanager.controller.web;
 
 import com.wisam.eventsmanager.domain.Event;
 import com.wisam.eventsmanager.domain.Organizer;
@@ -8,7 +8,9 @@ import com.wisam.eventsmanager.service.OrganizerService;
 import com.wisam.eventsmanager.service.PresenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,14 +23,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/events")
-public class EventController {
+@RequestMapping("/events")
+public class EventWebController {
     private final EventService eventService;
     private final OrganizerService organizerService;
     private final PresenterService presenterService;
 
     @Autowired
-    public EventController(EventService eventService, OrganizerService organizerService, PresenterService presenterService) {
+    public EventWebController(EventService eventService, OrganizerService organizerService, PresenterService presenterService) {
         this.eventService = eventService;
         this.organizerService = organizerService;
         this.presenterService = presenterService;
@@ -75,24 +77,38 @@ public class EventController {
     @GetMapping("/{id}/delete")
     public String deleteEvent(@PathVariable Long id, Model model) {
         eventService.deleteEvent(id);
-        return "redirect:/api/events";
+        return "redirect:/events";
     }
 
     @PostMapping
-    public String createEvent(@ModelAttribute("event") Event event) {
+    public ResponseEntity<Event> createEvent(
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+            @RequestParam("maxAttendees") int maxAttendees,
+            @RequestParam("organizerId") Long organizerId,
+            @RequestParam("presenterId") Long presenterId) {
+        // Create the Event object with the provided parameters
+        Event event = new Event();
+        event.setName(name);
+        event.setDescription(description);
+        event.setDate(date);
+        event.setMaxAttendees(maxAttendees);
+
         // Set the organizer and presenter for the event
-        Organizer organizer = organizerService.getOrganizerById(event.getOrganizer().getId()).orElse(null);
-        Presenter presenter = presenterService.getPresenterById(event.getPresenter().getId()).orElse(null);
+        Organizer organizer = organizerService.getOrganizerById(organizerId).orElse(null);
+        Presenter presenter = presenterService.getPresenterById(presenterId).orElse(null);
         if (organizer != null && presenter != null) {
             event.setOrganizer(organizer);
             event.setPresenter(presenter);
             Event createdEvent = eventService.createEvent(event);
             if (createdEvent != null) {
-                return "redirect:/api/events";
+                return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
             }
         }
-        return "error"; // handle error case
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
 
 
     @InitBinder
@@ -101,5 +117,4 @@ public class EventController {
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
-
 }

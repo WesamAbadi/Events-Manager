@@ -1,12 +1,10 @@
-package com.wisam.eventsmanager.controller;
+package com.wisam.eventsmanager.controller.web;
 
 import com.wisam.eventsmanager.domain.Attendee;
 import com.wisam.eventsmanager.domain.Event;
 import com.wisam.eventsmanager.service.AttendeeService;
 import com.wisam.eventsmanager.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/attendees")
-public class AttendeeController {
+@RequestMapping("/attendees")
+public class AttendeeWebController {
     private final AttendeeService attendeeService;
     private final EventService eventService;
 
     @Autowired
-    public AttendeeController(AttendeeService attendeeService, EventService eventService) {
+    public AttendeeWebController(AttendeeService attendeeService, EventService eventService) {
         this.attendeeService = attendeeService;
         this.eventService = eventService;
     }
@@ -43,7 +41,7 @@ public class AttendeeController {
         if (event.isPresent()) {
             attendee.setEvent(event.get());
             attendeeService.createAttendee(attendee);
-            return "redirect:/api/attendees";
+            return "redirect:/attendees";
         } else {
             return "error";
         }
@@ -59,12 +57,12 @@ public class AttendeeController {
     @PutMapping("/{id}")
     public String updateAttendee(@PathVariable Long id, @ModelAttribute("attendee") Attendee attendee) {
         Attendee updatedAttendee = attendeeService.updateAttendee(id, attendee);
-        return updatedAttendee != null ? "redirect:/api/attendees" : "error";
+        return updatedAttendee != null ? "redirect:/attendees" : "error";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAttendee(@PathVariable Long id) {
-        boolean deleted = attendeeService.deleteAttendee(id);
-        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/{id}/delete")
+    public String deleteAttendee(@PathVariable Long id) {
+        attendeeService.deleteAttendee(id);
+        return "redirect:/attendees";
     }
 }

@@ -1,6 +1,8 @@
 package com.wisam.eventsmanager.service;
 
+import com.wisam.eventsmanager.domain.Organizer;
 import com.wisam.eventsmanager.domain.Presenter;
+import com.wisam.eventsmanager.repository.OrganizerRepository;
 import com.wisam.eventsmanager.repository.PresenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,12 @@ import java.util.Optional;
 @Service
 public class PresenterService {
     private final PresenterRepository presenterRepository;
+    private final OrganizerService organizerService;
 
     @Autowired
-    public PresenterService(PresenterRepository presenterRepository) {
+    public PresenterService(PresenterRepository presenterRepository, OrganizerService organizerService) {
         this.presenterRepository = presenterRepository;
+        this.organizerService = organizerService;
     }
 
     public List<Presenter> getAllPresenters() {
@@ -26,7 +30,12 @@ public class PresenterService {
     }
 
     public Presenter createPresenter(Presenter presenter) {
-        return presenterRepository.save(presenter);
+        Optional<Organizer> organizer = organizerService.getOrganizerById(presenter.getOrganizer().getId());
+        if (organizer.isPresent()) {
+            presenter.setOrganizer(organizer.get());
+            return presenterRepository.save(presenter);
+        }
+        return null;
     }
 
     public Presenter updatePresenter(Long id, Presenter updatedPresenter) {
@@ -35,29 +44,22 @@ public class PresenterService {
             Presenter presenter = existingPresenter.get();
             presenter.setName(updatedPresenter.getName());
             presenter.setExpertise(updatedPresenter.getExpertise());
-            presenter.setOrganizer(updatedPresenter.getOrganizer()); // Set the organizer
+            presenter.setOrganizer(updatedPresenter.getOrganizer());
             return presenterRepository.save(presenter);
         }
         return null;
     }
 
-//    public boolean deletePresenter(Long id) {
-//        Optional<Presenter> presenter = presenterRepository.findById(id);
-//        if (presenter.isPresent()) {
-//            presenterRepository.deleteById(id);
-//            return true;
-//        }
-//        return false;
-//    }
-
-    public void deletePresenter(Long id) {
-        if (!presenterRepository.existsById(id)) {
-            throw new IllegalStateException("No existing owner with the id " + id);
+    public boolean deletePresenter(Long id) {
+        Optional<Presenter> presenter = presenterRepository.findById(id);
+        if (presenter.isPresent()) {
+            presenterRepository.deleteById(id);
+            return true;
         }
-        presenterRepository.deleteById(id);
+        return false;
     }
 
-    public List<Presenter> getPresentersByOrganizerId(Long organizerId) {
+    public List<Presenter> getAllPresentersByOrganizer(Long organizerId) {
         return presenterRepository.findByOrganizerId(organizerId);
     }
 }

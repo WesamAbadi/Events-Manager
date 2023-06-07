@@ -2,6 +2,7 @@ package com.wisam.eventsmanager.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Event {
     private Long id;
     private String name;
     private String description;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private int maxAttendees;
 

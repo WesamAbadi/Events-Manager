@@ -1,12 +1,10 @@
-package com.wisam.eventsmanager.controller;
+package com.wisam.eventsmanager.controller.web;
 
 import com.wisam.eventsmanager.domain.Event;
 import com.wisam.eventsmanager.domain.Organizer;
 import com.wisam.eventsmanager.service.OrganizerService;
 import com.wisam.eventsmanager.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/organizers")
-public class OrganizerController {
+@RequestMapping("/organizers")
+public class OrganizerWebController {
     private final OrganizerService organizerService;
     private final EventService eventService;
 
     @Autowired
-    public OrganizerController(OrganizerService organizerService, EventService eventService) {
+    public OrganizerWebController(OrganizerService organizerService, EventService eventService) {
         this.organizerService = organizerService;
         this.eventService = eventService;
     }
@@ -37,7 +35,7 @@ public class OrganizerController {
     @PostMapping
     public String createOrganizer(@ModelAttribute("organizerForm") Organizer organizer) {
         organizerService.createOrganizer(organizer);
-        return "redirect:/api/organizers/" + organizer.getId();
+        return "redirect:/organizers/";
     }
 
     @GetMapping("/{id}")
@@ -58,24 +56,9 @@ public class OrganizerController {
         return "organizer-events";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Organizer> updateOrganizer(@PathVariable Long id, @RequestBody Organizer organizer) {
-        Organizer updatedOrganizer = organizerService.updateOrganizer(id, organizer);
-        return updatedOrganizer != null ?
-                new ResponseEntity<>(updatedOrganizer, HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-//    @DeleteMapping("/{id}/delete")
-//    public ResponseEntity<Void> deleteOrganizer(@PathVariable Long id) {
-//        boolean deleted = organizerService.deleteOrganizer(id);
-//        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-
     @GetMapping("/{id}/delete")
     public String deleteOrganizer(@PathVariable Long id, Model model) {
         organizerService.deleteOrganizer(id);
-        return "redirect:/api/organizers";
+        return "redirect:/organizers";
     }
-
 }
