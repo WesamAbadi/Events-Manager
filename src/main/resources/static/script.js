@@ -1,75 +1,50 @@
-function getAllEvents() {
-    fetch('/api/events')
-        .then(response => response.json())
-        .then(events => {
-            const eventsContainer = document.getElementById('events-container');
-            eventsContainer.innerHTML = '';
 
-            events.forEach(event => {
-                const eventDiv = document.createElement('div');
-                eventDiv.classList.add('event');
+    // Function to fetch presenter options based on the selected organizer
+    function fetchPresentersByOrganizer(organizerId) {
+    fetch(`/api/presenters/organizer/${organizerId}/html`)
+        .then(response => response.text())
+        .then(html => {
+            // Update the presenter options
+            const presenterSelect = document.getElementById("presenter");
+            presenterSelect.innerHTML = html;
 
-                const eventName = document.createElement('h3');
-                eventName.textContent = event.name;
-
-                const eventDescription = document.createElement('p');
-                eventDescription.textContent = event.description;
-
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.addEventListener('click', () => deleteEvent(event.id));
-
-                eventDiv.appendChild(eventName);
-                eventDiv.appendChild(eventDescription);
-                eventDiv.appendChild(deleteButton);
-
-                eventsContainer.appendChild(eventDiv);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-function addEvent() {
-    const eventName = document.getElementById('event-name').value;
-    const eventDescription = document.getElementById('event-description').value;
-
-    const event = {
-        name: eventName,
-        description: eventDescription
-    };
-
-    fetch('/api/events', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(event)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            getAllEvents();
-            clearForm();
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-function deleteEvent(eventId) {
-    fetch(`/api/events/${eventId}`, {
-        method: 'DELETE'
-    })
-        .then(response => {
-            if (response.ok) {
-                console.log('Event deleted');
-                getAllEvents();
+            // Select the current presenter
+            const currentPresenterId = document.getElementById("presenter").getAttribute("data-current-presenter");
+            if (currentPresenterId) {
+                presenterSelect.value = currentPresenterId;
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error(error));
 }
 
-function clearForm() {
-    document.getElementById('event-name').value = '';
-    document.getElementById('event-description').value = '';
+    // Event listener for the organizer selection
+    const organizerSelect = document.getElementById("organizer");
+    organizerSelect.addEventListener("change", function() {
+    const selectedOrganizerId = this.value;
+    // Fetch presenter options based on the selected organizer
+    fetchPresentersByOrganizer(selectedOrganizerId);
+});
+
+    // Trigger change event on page load to fetch initial presenter options
+    organizerSelect.dispatchEvent(new Event('change'));
+
+    // Function to handle event deletion
+    function deleteEvent(event) {
+    event.preventDefault();
+    if (confirm("Are you sure you want to delete this event?")) {
+    const form = event.target.closest('form');
+    const url = form.getAttribute('action');
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', url, true);
+    xhr.onload = function () {
+    if (xhr.status === 204) {
+    // Reload the page or update the event list
+    location.reload();
+} else {
+    alert('Failed to delete the event. \n don\'t delete the original entries ￣へ￣');
+}
+};
+    xhr.send();
+}
 }
 
-getAllEvents();

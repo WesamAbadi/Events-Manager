@@ -46,6 +46,32 @@ public class EventController {
         return "events3";
     }
 
+    @GetMapping("/{id}")
+    public String showEventDetails(@PathVariable("id") Long id, Model model) {
+        Optional<Event> event = eventService.getEventById(id);
+        if (event.isPresent()) {
+            model.addAttribute("event", event.get());
+            return "event-details";
+        } else {
+            // Handle the case when the event is not found
+            return "error";
+        }
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditEventForm(@PathVariable("id") Long id, Model model) {
+        Optional<Event> event = eventService.getEventById(id);
+        if (event.isPresent()) {
+            model.addAttribute("event", event.get());
+            List<Organizer> organizers = organizerService.getAllOrganizers();
+            model.addAttribute("organizers", organizers);
+            return "event-update";
+        } else {
+            // Handle the case when the event is not found
+            return "error";
+        }
+    }
+
     @PostMapping
     public String createEvent(@ModelAttribute("event") Event event) {
         // Set the organizer and presenter for the event
@@ -62,20 +88,6 @@ public class EventController {
         return "error"; // handle error case
     }
 
-    @GetMapping("/events/{id}/edit")
-    public String showEditEventForm(@PathVariable("id") Long id, Model model) {
-        Optional<Event> event = eventService.getEventById(id);
-        if (event.isPresent()) {
-            model.addAttribute("event", event.get());
-            List<Organizer> organizers = organizerService.getAllOrganizers();
-            model.addAttribute("organizers", organizers);
-            return "event-update";
-        } else {
-            // Handle the case when the event is not found
-            return "error";
-        }
-    }
-
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -84,13 +96,4 @@ public class EventController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        boolean deleted = eventService.deleteEvent(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
 }

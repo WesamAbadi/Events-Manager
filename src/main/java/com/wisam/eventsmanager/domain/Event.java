@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,7 +16,10 @@ public class Event {
     private String name;
     private String description;
     private Date date;
-    private int attendees;
+    private int maxAttendees;
+
+    @OneToMany(mappedBy = "event")
+    private List<Attendee> attendees;
 
     @ManyToOne
     @JoinColumn(name = "organizer_id")

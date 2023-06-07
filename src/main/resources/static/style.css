@@ -3,6 +3,8 @@
 
 *{
     font-family: 'Montserrat', sans-serif;
+    animation: fadeIn 1s;
+
 }
 body {
     font-family: Arial, sans-serif;
@@ -50,6 +52,7 @@ table {
 th, td {
     padding: 10px;
     border: 1px solid #ddd;
+    text-align: center;
 }
 
 th {
@@ -108,6 +111,7 @@ form#deleteForm:hover {
 }
 
 form#editForm {
+    margin-top:0.5rem;
     border-radius: 1rem;
     background: #77ff9c2e;
     padding: 0;
@@ -133,8 +137,6 @@ form#editForm button {
     width: 6rem;
     height: 4rem;
     text-align: center;
-
-    cursor: url("https://www.shareicon.net/data/256x256/2015/08/17/86732_edit_512x512.png"), auto;
 }
 
 .highlight {
@@ -150,3 +152,9 @@ a :hover{
     color: goldenrod;
     text-shadow: 0px -1px 20px #00000045;
 }
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
