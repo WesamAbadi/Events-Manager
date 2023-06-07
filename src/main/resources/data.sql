@@ -53,10 +53,10 @@ INSERT INTO presenters (name, expertise, organizer_id) VALUES ('George', 'Market
 
 -- Insert sample data for events
 INSERT INTO events (name, description, organizer_id, date, max_attendees, presenter_id)
-VALUES ('Apple keynote', 'Keynote is a presentation software application developed as a part of the iWork productivity suite by Apple Inc.', 1, '2023-06-10', 2600, 3);
+VALUES ('Apple keynote', 'Keynote is a presentation software application developed as a part of the iWork productivity suite by Apple Inc.', 1, '2023-06-10', 2600, 1);
 
 INSERT INTO events (name, description, organizer_id, date, max_attendees, presenter_id)
-VALUES ('Google I/O', 'Google I/O is an annual developer conference held by Google in Mountain View, California.', 2, '2023-06-10', 249, 1);
+VALUES ('Google I/O', 'Google I/O is an annual developer conference held by Google in Mountain View, California.', 2, '2023-06-10', 249, 3);
 
 INSERT INTO events (name, description, organizer_id, date, max_attendees, presenter_id)
 VALUES ('React Dev event', 'Upcoming React Conferences in 2023', 3, '2023-06-10', 132, 2);
