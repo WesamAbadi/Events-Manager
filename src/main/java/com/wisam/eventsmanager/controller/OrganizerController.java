@@ -66,9 +66,16 @@ public class OrganizerController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrganizer(@PathVariable Long id) {
-        boolean deleted = organizerService.deleteOrganizer(id);
-        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    @DeleteMapping("/{id}/delete")
+//    public ResponseEntity<Void> deleteOrganizer(@PathVariable Long id) {
+//        boolean deleted = organizerService.deleteOrganizer(id);
+//        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteOrganizer(@PathVariable Long id, Model model) {
+        organizerService.deleteOrganizer(id);
+        return "redirect:/api/organizers";
     }
+
 }

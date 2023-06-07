@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS presenters (
                                           name VARCHAR(255) NOT NULL,
                                           expertise VARCHAR(255) NOT NULL,
                                           organizer_id BIGINT,
-                                          FOREIGN KEY (organizer_id) REFERENCES organizers(id)
+                                          FOREIGN KEY (organizer_id) REFERENCES organizers(id) ON DELETE SET NULL
 );
 
 -- Create events table
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS events (
                                       presenter_id BIGINT,
                                       date DATE,
                                       max_attendees INT,
-                                      FOREIGN KEY (organizer_id) REFERENCES organizers(id),
-                                      FOREIGN KEY (presenter_id) REFERENCES presenters(id)
+                                      FOREIGN KEY (organizer_id) REFERENCES organizers(id) ON DELETE SET NULL,
+                                      FOREIGN KEY (presenter_id) REFERENCES presenters(id) ON DELETE SET NULL
 );
 
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS attendees (
                                          name VARCHAR(255) NOT NULL,
                                          email VARCHAR(255) NOT NULL,
                                          event_id BIGINT,
-                                         FOREIGN KEY (event_id) REFERENCES events(id)
+                                         FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE SET NULL
 
 
 );

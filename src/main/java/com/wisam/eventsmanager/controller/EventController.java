@@ -72,6 +72,12 @@ public class EventController {
         }
     }
 
+    @GetMapping("/{id}/delete")
+    public String deleteEvent(@PathVariable Long id, Model model) {
+        eventService.deleteEvent(id);
+        return "redirect:/api/events";
+    }
+
     @PostMapping
     public String createEvent(@ModelAttribute("event") Event event) {
         // Set the organizer and presenter for the event

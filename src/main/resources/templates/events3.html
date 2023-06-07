@@ -42,13 +42,13 @@
         </td>
 
         <td>
-            <form id="deleteForm" th:action="@{/api/events/{id}(id=${event.id})}" method="POST">
+            <form id="deleteForm" >
                 <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" onclick="deleteEvent(event)">Delete</button>
+                <button><a style="border: none" th:href="@{/api/events/{id}/delete(id=${event.id})}" class="btn btn-danger">Delete</a></button>
             </form>
-            <form id="editForm" th:action="@{/api/events/{id}/edit(id=${event.id})}" method="POST">
+            <form id="editForm">
                 <input type="hidden" name="_method" value="PUT">
-                <button disabled ><a style="border: none" th:href="@{/api/events/{id}/edit(id=${event.id})}">
+                <button disabled ><a th:href="@{/api/events/{id}/edit(id=${event.id})}">
                 Edit</a></button>
             </form>
         </td>

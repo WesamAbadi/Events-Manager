@@ -84,9 +84,15 @@ public class PresenterController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePresenter(@PathVariable Long id) {
-        boolean deleted = presenterService.deletePresenter(id);
-        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    @DeleteMapping("/{id}/delete")
+//    public ResponseEntity<Void> deletePresenter(@PathVariable Long id) {
+//        boolean deleted = presenterService.deletePresenter(id);
+//        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
+
+    @GetMapping("/{id}/delete")
+    public String deletePresenter(@PathVariable("id") Long id) {
+        presenterService.deletePresenter(id);
+        return "redirect:/api/presenters";
     }
 }

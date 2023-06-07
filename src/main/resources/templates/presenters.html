@@ -13,21 +13,26 @@
         <th>Name</th>
         <th>Expertise</th>
         <th>Organizer</th>
-        <th>Actions</th>
+        <th>Actions
+            <p style="font-size: 10px;color: gray;font-weight: 100;">can't delete due relations constraints</p></th>
     </tr>
     </thead>
     <tbody>
     <!-- Iterate over the list of presenters -->
-    <tr th:each="presenter : ${presenters}" th:class="${#strings.equals(presenter.name, selectedPresenter) ? 'highlight' : ''}">
+    <tr th:each="presenter : ${presenters}"
+        th:class="${#strings.equals(presenter.name, selectedPresenter) ? 'highlight' : ''}">
         <td th:text="${presenter.name}"></td>
         <td th:text="${presenter.expertise}"></td>
         <td>
-            <a th:href="@{/api/organizers/{id}(id=${presenter.organizer.id})}" th:text="${presenter.organizer.name}"></a>
+            <a th:href="@{/api/organizers/{id}(id=${presenter.organizer.id})}"
+               th:text="${presenter.organizer.name}"></a>
         </td>
         <td>
-            <form id="deleteForm" th:action="@{/api/presenters/{id}(id=${presenter.id})}" method="POST">
+            <form id="deleteForm">
                 <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" onclick="deletePresenter(event)">Delete</button>
+                <button><a onclick="return false" th:href="@{/api/presenters/{id}/delete(id=${presenter.id})}"
+                           class="btn btn-danger">Delete3</a>
+                </button>
             </form>
         </td>
     </tr>

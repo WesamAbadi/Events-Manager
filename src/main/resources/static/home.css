@@ -37,7 +37,7 @@ a {
 }
 
 .sub--main-title {
-    font-family: "Lora", serif;
+    /*font-family: "Lora", serif;*/
     font-weight: 400;
     font-size: 1.1rem;
     text-transform: uppercase;
@@ -49,6 +49,7 @@ a {
     font-size: 3rem;
     text-align: center;
     line-height: 4rem;
+    margin-bottom: 2rem;
 }
 
 .description {

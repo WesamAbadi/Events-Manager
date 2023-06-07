@@ -41,13 +41,20 @@ public class PresenterService {
         return null;
     }
 
-    public boolean deletePresenter(Long id) {
-        Optional<Presenter> presenter = presenterRepository.findById(id);
-        if (presenter.isPresent()) {
-            presenterRepository.deleteById(id);
-            return true;
+//    public boolean deletePresenter(Long id) {
+//        Optional<Presenter> presenter = presenterRepository.findById(id);
+//        if (presenter.isPresent()) {
+//            presenterRepository.deleteById(id);
+//            return true;
+//        }
+//        return false;
+//    }
+
+    public void deletePresenter(Long id) {
+        if (!presenterRepository.existsById(id)) {
+            throw new IllegalStateException("No existing owner with the id " + id);
         }
-        return false;
+        presenterRepository.deleteById(id);
     }
 
     public List<Presenter> getPresentersByOrganizerId(Long organizerId) {
