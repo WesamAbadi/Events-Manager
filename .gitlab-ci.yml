@@ -15,10 +15,5 @@ test:
   script:
     - mvn clean test
 
-package:
-  stage: package
-  script:
-    - mvn package -DskipTests
-
 before_script:
   - mvn --version
