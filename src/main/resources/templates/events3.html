@@ -48,7 +48,7 @@
             </form>
             <form id="editForm" th:action="@{/api/events/{id}/edit(id=${event.id})}" method="POST">
                 <input type="hidden" name="_method" value="PUT">
-                <button ><a style="border: none" th:href="@{/api/events/{id}/edit(id=${event.id})}">
+                <button disabled ><a style="border: none" th:href="@{/api/events/{id}/edit(id=${event.id})}">
                 Edit</a></button>
             </form>
         </td>
