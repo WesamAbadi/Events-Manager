@@ -1,5 +1,10 @@
 image: maven:3.8.4-openjdk-17
 
+stages:
+  - build
+  - test
+  - deploy
+
 build:
   stage: build
   script:
@@ -10,8 +15,8 @@ test:
   script:
     - mvn clean test
 
-run:
-  stage: run
+deploy:
+  stage: deploy
   script:
     - mvn spring-boot:run
 
