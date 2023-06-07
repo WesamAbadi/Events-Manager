@@ -15,10 +15,10 @@ test:
   script:
     - mvn clean test
 
-deploy:
-  stage: deploy
+package:
+  stage: package
   script:
-    - mvn spring-boot:run
+    - mvn package -DskipTests
 
 before_script:
   - mvn --version
