@@ -31,12 +31,12 @@
         <td th:text="${#dates.format(event.date, 'yyyy-MM-dd')}"></td>
         <td th:text="${event.maxAttendees}"></td>
         <td>
-            <a th:href="@{/api/organizers/{id}(id=${event.organizer.id})}">
+            <a th:href="@{/organizers/{id}(id=${event.organizer.id})}">
                 <span th:text="${event.organizer.name}"></span>
             </a>
         </td>
         <td>
-            <a th:href="@{/api/presenters/{id}(id=${event.presenter.id})}">
+            <a th:href="@{/presenters/{id}(id=${event.presenter.id})}">
                 <span th:text="${event.presenter.name}"></span>
             </a>
         </td>
