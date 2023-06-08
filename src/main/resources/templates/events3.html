@@ -23,7 +23,7 @@
     <!-- Iterate over the list of events -->
     <tr th:each="event : ${events}">
         <td>
-            <a th:href="@{/api/events/{id}(id=${event.id})}">
+            <a th:href="@{/events/{id}(id=${event.id})}">
                 <span th:text="${event.name}"></span>
             </a>
         </td>
