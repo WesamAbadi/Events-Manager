@@ -20,3 +20,7 @@ spring:
     user:
       name: root
       password: passwd
+server:
+  error:
+    whitelabel:
+      enabled: false
