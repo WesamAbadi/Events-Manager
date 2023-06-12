@@ -1,0 +1,160 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+*{
+    font-family: 'Montserrat', sans-serif;
+    animation: fadeIn 1s;
+
+}
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#events-container {
+    margin-top: 20px;
+}
+
+.event {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#add-event-form {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+table {
+    margin-top: 2rem;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f7f7f7;
+    font-weight: bold;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.form-group button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #45a049;
+}
+form#deleteForm {
+    border-radius: 1rem;
+    background: #ff777721;
+    padding: 0;
+    text-align: center;
+}
+
+form#deleteForm:hover {
+    background: #ff00003d;
+}
+
+form#editForm {
+    margin-top:0.5rem;
+    border-radius: 1rem;
+    background: #77ff9c2e;
+    padding: 0;
+    text-align: center;
+}
+
+form#editForm:hover {
+    background: #77ff9c59;
+}
+
+form#deleteForm button {
+    background: transparent;
+    border: 0px;
+    width: 6rem;
+    height: 4rem;
+    text-align: center;
+
+    cursor: url("https://i.stack.imgur.com/bUGV0.png"), auto;
+}
+form#editForm button {
+    background: transparent;
+    border: 0px;
+    width: 6rem;
+    height: 4rem;
+    text-align: center;
+}
+
+.highlight {
+    background-color: yellow;
+}
+a {
+    text-decoration: none;
+    color: black;
+    border-bottom:3px dashed #FFD2BB;
+}
+a :hover{
+    text-decoration: none;
+    color: goldenrod;
+    text-shadow: 0px -1px 20px #00000045;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+

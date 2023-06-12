@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Presenters</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Presenters</h1>
+<a href="/">Back to Homepage 🏠</a>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Expertise</th>
+        <th>Organizer</th>
+        <th>Actions
+            <p style="font-size: 10px;color: gray;font-weight: 100;">can't delete due relations constraints</p></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of presenters -->
+    <tr th:each="presenter : ${presenters}"
+        th:class="${#strings.equals(presenter.name, selectedPresenter) ? 'highlight' : ''}">
+        <td th:text="${presenter.name}"></td>
+        <td th:text="${presenter.expertise}"></td>
+        <td>
+            <a th:href="@{/api/organizers/{id}(id=${presenter.organizer.id})}"
+               th:text="${presenter.organizer.name}"></a>
+        </td>
+        <td>
+            <form id="deleteForm">
+                <input type="hidden" name="_method" value="DELETE">
+                <button><a onclick="return false" th:href="@{/api/presenters/{id}/delete(id=${presenter.id})}"
+                           class="btn btn-danger">Delete3</a>
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form th:action="@{/api/presenters}" th:object="${presenter}" method="POST">
+    <div class="form-group">
+        <label for="name">Presenter Name</label>
+        <input type="text" id="name" name="name" placeholder="Gabe" required>
+    </div>
+    <div class="form-group">
+        <label for="expertise">Presenter Expertise</label>
+        <input type="text" id="expertise" name="expertise" placeholder="Front-end" required>
+    </div>
+    <div class="form-group">
+        <label for="organizer">Organizer</label>
+        <select id="organizer" name="organizer.id">
+            <option th:each="organizer : ${organizers}" th:value="${organizer.id}" th:text="${organizer.name}"></option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit">Add Presenter</button>
+    </div>
+</form>
+
+<script>
+    function deletePresenter(event) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to delete this presenter?")) {
+            const form = event.target.closest('form');
+            const url = form.getAttribute('action');
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', url, true);
+            xhr.onload = function () {
+                if (xhr.status === 204) {
+                    // Reload the page or update the presenter list
+                    location.reload();
+                } else {
+                    alert('Failed to delete the presenter, u can\'t delete the default organizers for now. \n though you can delete the newly created ones!');
+                }
+            };
+            xhr.send();
+        }
+    }
+</script>
+</body>
+</html>
