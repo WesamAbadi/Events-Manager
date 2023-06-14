@@ -16,11 +16,11 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .html
+  server:
+    error:
+      whitelabel:
+        enabled: false
+
   security:
-    user:
-      name: root
-      password: passwd
-server:
-  error:
-    whitelabel:
-      enabled: false
+    basic:
+      enabled: true

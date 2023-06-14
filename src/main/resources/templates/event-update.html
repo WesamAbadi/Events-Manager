@@ -46,6 +46,11 @@
 
 
 <script src="/script.js"></script>
+<script>
+  var dateInput = document.getElementById("date");
+  var currentDate = new Date().toISOString().split("T")[0];
+  dateInput.setAttribute("min", currentDate);
+</script>
 
 </body>
 </html>

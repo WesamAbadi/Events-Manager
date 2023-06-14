@@ -1,5 +1,6 @@
 package com.wisam.eventsmanager.controller.rest;
 
+import ch.qos.logback.core.model.Model;
 import com.wisam.eventsmanager.domain.Event;
 import com.wisam.eventsmanager.domain.Organizer;
 import com.wisam.eventsmanager.service.EventService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,19 +36,30 @@ public class EventRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(Event event) {
+    public String createEvent(@ModelAttribute Event event, RedirectAttributes redirectAttributes) {
         Event createdEvent = eventService.createEvent(event);
-        return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+        if (createdEvent != null) {
+            redirectAttributes.addFlashAttribute("event", createdEvent);
+            return "<button type=\"button\" class=\"main-button\" onclick=\"location.href='/events'\">Back to events</button>"; // Redirect to the events list page
+        } else {
+            // Handle the case when event creation fails
+            return "error";
+        }
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) {
+    public String updateEvent(@PathVariable Long id, @ModelAttribute Event event, RedirectAttributes redirectAttributes) {
         Event updatedEvent = eventService.updateEvent(id, event);
-        return updatedEvent != null ?
-                new ResponseEntity<>(updatedEvent, HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (updatedEvent != null) {
+            redirectAttributes.addFlashAttribute("event", updatedEvent);
+            return "redirect:/events/" + id; // Redirect to the updated event details page
+        } else {
+            // Handle the case when the event is not found
+            return "error";
+        }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {

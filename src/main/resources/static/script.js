@@ -8,26 +8,29 @@ function fetchPresentersByOrganizer(organizerId) {
             presenterSelect.innerHTML = "";
 
             // Create and append option elements
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.text = "Select Presenter";
-            presenterSelect.appendChild(defaultOption);
+            let firstPresenterId = null; // Variable to store the first presenter ID
 
             for (const presenter of data) {
                 const option = document.createElement("option");
                 option.value = presenter.id;
                 option.text = presenter.name;
                 presenterSelect.appendChild(option);
+
+                if (firstPresenterId === null) {
+                    firstPresenterId = presenter.id; // Store the first presenter ID
+                }
             }
 
-            // Select the current presenter
-            const currentPresenterId = document.getElementById("presenter").getAttribute("data-current-presenter");
-            if (currentPresenterId) {
-                presenterSelect.value = currentPresenterId;
+            // Select the first presenter if available
+            if (firstPresenterId) {
+                presenterSelect.value = firstPresenterId;
             }
         })
         .catch(error => console.error(error));
 }
+
+// Rest of the code remains the same
+
 
 // Event listener for the organizer selection
 const organizerSelect = document.getElementById("organizer");
